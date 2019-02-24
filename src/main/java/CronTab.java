@@ -84,7 +84,12 @@ public class CronTab {
             }
         } else {
             for (String splitValues : Arrays.asList(value.split(","))) {
-                Integer parsedInt = Integer.parseInt(splitValues);
+                Integer parsedInt;
+                try {
+                    parsedInt = Integer.parseInt(splitValues);
+                } catch (Exception e){
+                    throw new IllegalArgumentException("Invalid input. All values should be integers");
+                }
                 if (checkRange(range, parsedInt))
                     throw new IllegalArgumentException(type + " value must be between 0-" + range);
                 returnedValue.append(" ").append(parsedInt);
@@ -110,10 +115,14 @@ public class CronTab {
     private static String parseRange(String value, Integer range) {
         StringBuilder parsedRange = new StringBuilder();
         String rangePart = value.split("/")[0];
-        Integer parsedStep = value.split("/").length > 1 ? Integer.parseInt(value.split("/")[1]) : 1;
-
-        Integer begin = Integer.parseInt(rangePart.split("-")[0]);
-        Integer end = Integer.parseInt(rangePart.split("-")[1]);
+        Integer parsedStep, begin, end;
+        try {
+            parsedStep = value.split("/").length > 1 ? Integer.parseInt(value.split("/")[1]) : 1;
+            begin = Integer.parseInt(rangePart.split("-")[0]);
+            end = Integer.parseInt(rangePart.split("-")[1]);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid input. All values should be integers");
+        }
 
         if (checkRange(range, begin) || checkRange(range, end))
             throw new IllegalArgumentException();
