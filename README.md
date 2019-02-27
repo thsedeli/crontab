@@ -7,5 +7,5 @@
 
 If you need any clarifications please don't hesitate to contact me!
 
-thsedel@gmail.com
+thsedeli@gmail.com
 
